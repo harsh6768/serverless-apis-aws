@@ -5,3 +5,5 @@ Serverless apis for crud operations using DynamoDB database with Lamda Functions
 
 
 [Go to serverless framework for better understanding](https://serverless.com/framework/docs/providers/aws/guide/functions/)
+
+[Visit this link to configure serverless.yaml file](https://serverless.com/framework/docs/providers/aws/guide/resources/)
