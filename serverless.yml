@@ -1,0 +1,107 @@
+
+# For full config options, check the docs:
+#    docs.serverless.com
+
+
+service: serverless-api
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+#describe custom settings
+custom:
+  settings:
+      POSTS_TABLE: posts 
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  environment: ${self:custom.settings}
+  region: us-east-1
+  credentials:
+    accessKeyId: ''
+    secretAccessKey: ''
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: 
+        - dynamodb:DescribeTable
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.POSTS_TABLE}"
+
+
+functions:
+  createPost:
+    handler: handler.createPost
+    events:
+    - http:
+        path: /post
+        method: post
+  getAllPosts:
+    handler: handler.getAllPosts
+    events:
+    - http:
+        path: /posts
+        method: get
+  getPosts:
+    handler: handler.getPosts
+    events:
+    - http:
+        path: /posts/{number}
+        method: get
+  getPost:
+    handler: handler.getPost
+    events:
+    - http:
+        path: /post/{id}
+        method: get
+  updatePost:
+    handler: handler.updatePost
+    events:
+    - http:
+        path: /post/{id}
+        method: put
+  deletePost:
+    handler: handler.deletePost
+    events:
+    - http:
+        path: /post/{id}
+        method: delete
+
+resources:
+  Resources:
+    PostsTable:
+      Type: AWS::DynamoDB::Table 
+      Properties:
+        AttributeDefinitions:
+         - AttributeName: "id"
+           AttributeType: "S"   #string type
+        KeySchema:
+         - AttributeName: "id"
+           KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.settings.POSTS_TABLE}
+
+#To configure the custom domain to the aws gateway api
+ 
+# plugins:
+#   - serverless-domain-manager
+
+# custom:
+#   customDomain:
+#     domainName: <registered_domain_name>
+#     basePath: ''
+#     stage: ${self:provider.stage}
+#     createRoute53Record: true
