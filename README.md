@@ -32,5 +32,11 @@ After deploying serverless apis in aws. It will create s3 bucket,lambda function
 
  <img src="https://github.com/harsh6768/serverless-apis-aws/blob/master/Images/Screenshot%20from%202020-01-16%2011-47-00.png" alt="">
  
+ 
+ ---------------------------------------------------------------------------------------------------------------------------
+ 
+ 
+ 
+ 
 <img src="https://github.com/harsh6768/serverless-apis-aws/blob/master/Images/Screenshot%20from%202020-01-16%2011-50-53.png" alt="">
      
